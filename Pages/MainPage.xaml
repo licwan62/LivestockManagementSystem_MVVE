@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Task4_MVVE.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="MainPage">
+    <Grid ColumnDefinitions="*,*">
+        <StackLayout>
+            <Border>
+                <CollectionView>
+                    <CollectionView.Header>
+                        <Border>
+                            <Grid ColumnDefinitions="*,*,*,*,*,*,*">
+                                <Label Grid.Column="0" Text="Type" />
+                                <Label Grid.Column="1" Text="ID" />
+                                <Label Grid.Column="2" Text="Cost" />
+                                <Label Grid.Column="3" Text="Weight" />
+                                <Label Grid.Column="4" Text="Colour" />
+                                <Label Grid.Column="5" Text="Milk" />
+                                <Label Grid.Column="6" Text="Wool" />
+                            </Grid>
+                        </Border>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <Grid ColumnDefinitions="*,*,*,*,*,*,*">
+                                    <Label Grid.Column="0" Text="{Binding Type}" />
+                                    <Label Grid.Column="1" Text="{Binding ID}" />
+                                    <Label Grid.Column="2" Text="{Binding Cost}" />
+                                    <Label Grid.Column="3" Text="{Binding Weight}" />
+                                    <Label Grid.Column="4" Text="{Binding Colour}" />
+                                    <Label Grid.Column="5" Text="{Binding Milk}" />
+                                    <Label Grid.Column="6" Text="{Binding Wool}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </StackLayout>
+        <ScrollView>
+            <VerticalStackLayout>
+                <!--  Statistics reporting  -->
+                <StackLayout>
+                    <Label Text="Prices Information" />
+                    <Label Text="{Binding PricesInfo}" />
+                    <Label Text="Livestock statistics reporting and investment profit forecasting" />
+                    <Label Text="{Binding StatisticsReporting}" />
+                    <Label Text="Query farm livestock from type and colour" />
+                </StackLayout>
+                <!--  Query form  -->
+                <StackLayout>
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*">
+                        <Label Grid.ColumnSpan="2" Text="{Binding VerifyInfo}" />
+                        <Label Grid.Row="1" Text="Type" />
+                        <Label Grid.Row="2" Text="Colour" />
+                        <Picker
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                        <Picker
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                        <Button
+                            Grid.Row="3"
+                            Clicked="Query_ResetBTN_Clicked"
+                            Text="Reset" />
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Clicked="Query_ApplyBTN_Clicked"
+                            Text="Apply" />
+                    </Grid>
+                </StackLayout>
+                <!--  Query Result  -->
+                <StackLayout>
+                    <Label Text="Query Result" />
+                    <Label Text="{Binding QueryResult}" />
+                </StackLayout>
+                <!--  Modify  -->
+                <StackLayout>
+                    <!--  Insert  -->
+                    <StackLayout>
+                        <Label Text="Add new Livestock" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*">
+                            <Label Grid.ColumnSpan="2" Text="{Binding InsertVerifyInfo}" />
+
+                            <Label Grid.Row="1" Text="Type" />
+                            <Picker
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                ItemsSource="{Binding Types}"
+                                SelectedItem="{Binding SelectedType}" />
+
+                            <Label Grid.Row="2" Text="Cost" />
+                            <Entry
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Placeholder="Cost of new livestock"
+                                Text="{Binding InsertCost}" />
+
+                            <Label Grid.Row="3" Text="Weight" />
+                            <Entry
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Placeholder="Weight of new livestock"
+                                Text="{Binding InsertWeight}" />
+
+                            <Label Grid.Row="4" Text="Colour" />
+                            <Picker
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                ItemsSource="{Binding Colours}"
+                                SelectedItem="{Binding SelectedColour}" />
+
+                            <Label Grid.Row="5" Text="{Binding ProductType}" />
+                            <Entry
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Placeholder="Weight of product from new livestock"
+                                Text="{Binding InsertWeight}" />
+
+                            <Button
+                                Grid.Row="6"
+                                Command="{Binding Reset}"
+                                CommandParameter="Insert"
+                                Text="Reset" />
+                            <Button
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Command="{Binding Apply}"
+                                CommandParameter="Insert"
+                                Text="Reset" />
+                        </Grid>
+                    </StackLayout>
+                    <!--  Insert Info  -->
+                    <StackLayout>
+                        <Label Text="Delete Info" />
+                        <Label Text="{Binding DeleteInfo}" />
+                    </StackLayout>
+                    <!--  Delete  -->
+                    <StackLayout>
+                        <Label Text="Remove Livestock by ID" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
+                            <Label Grid.ColumnSpan="2" Text="{Binding DeleteVerifyInfo}" />
+
+                            <Label Grid.Row="1" Text="ID" />
+                            <Entry
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Placeholder="Enter a ID number to remove" />
+
+                            <Button
+                                Grid.Row="2"
+                                Command="{Binding Reset}"
+                                CommandParameter="Delete"
+                                Text="Reset" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Command="{Binding Apply}"
+                                CommandParameter="Delete"
+                                Text="Apply" />
+                        </Grid>
+                    </StackLayout>
+                    <!--  Delete Info  -->
+                    <StackLayout>
+                        <Label Text="Remove Info" />
+                        <Label Text="{Binding DeleteInfo}" />
+                    </StackLayout>
+                    <!--  Update  -->
+                    <StackLayout>
+                        <!--  Search by ID  -->
+                        <StackLayout>
+                            <Label Text="Remove Livestock by ID" />
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
+                                <Label Grid.ColumnSpan="2" Text="{Binding UpdateVerifyInfo}" />
+
+                                <Label Grid.Row="1" Text="ID" />
+                                <Entry
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Placeholder="Enter a ID number to update" />
+                            </Grid>
+                        </StackLayout>
+                        <!--  Update Detail  -->
+                        <StackLayout>
+                            <Label Text="Update Statistic" />
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*">
+                                <Label Text="Type" />
+                                <Picker
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding Types}"
+                                    SelectedItem="{Binding SelectedType}" />
+
+                                <Label Grid.Row="1" Text="Cost" />
+                                <Entry
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Placeholder="Cost of new livestock"
+                                    Text="{Binding InsertCost}" />
+
+                                <Label Grid.Row="2" Text="Weight" />
+                                <Entry
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Placeholder="Weight of new livestock"
+                                    Text="{Binding InsertWeight}" />
+
+                                <Label Grid.Row="3" Text="Colour" />
+                                <Picker
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding Colours}"
+                                    SelectedItem="{Binding SelectedColour}" />
+
+                                <Label Grid.Row="4" Text="{Binding ProductType}" />
+                                <Entry
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Placeholder="Weight of product from new livestock"
+                                    Text="{Binding InsertWeight}" />
+
+                                <Button
+                                    Grid.Row="5"
+                                    Command="{Binding Reset}"
+                                    CommandParameter="Insert"
+                                    Text="Reset" />
+                                <Button
+                                    Grid.Row="5"
+                                    Grid.Column="1"
+                                    Command="{Binding Apply}"
+                                    CommandParameter="Insert"
+                                    Text="Reset" />
+                            </Grid>
+                        </StackLayout>
+                        <StackLayout>
+                            <Grid ColumnDefinitions="*,*">
+                                <Button
+                                    Command="{Binding Reset}"
+                                    CommandParameter="Update"
+                                    Text="Reset" />
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{Binding Apply}"
+                                    CommandParameter="Update"
+                                    Text="Apply" />
+                            </Grid>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--  Update Info  -->
+                    <StackLayout>
+                        <Label Text="Update Info" />
+                        <Label Text="{Binding UpdateInfo}" />
+                    </StackLayout>
+                </StackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
