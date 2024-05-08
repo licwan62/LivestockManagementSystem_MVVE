@@ -3,11 +3,12 @@
     x:Class="Task4_MVVE.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModel="clr-namespace:Task4_MVVE.ViewModel"
     Title="MainPage">
     <Grid ColumnDefinitions="*,*">
-        <StackLayout>
+        <StackLayout Grid.Column="0">
             <Border>
-                <CollectionView>
+                <CollectionView ItemsSource="{Binding Livestocks}">
                     <CollectionView.Header>
                         <Border>
                             <Grid ColumnDefinitions="*,*,*,*,*,*,*">
@@ -26,7 +27,7 @@
                             <Border>
                                 <Grid ColumnDefinitions="*,*,*,*,*,*,*">
                                     <Label Grid.Column="0" Text="{Binding Type}" />
-                                    <Label Grid.Column="1" Text="{Binding ID}" />
+                                    <Label Grid.Column="1" Text="{Binding Id}" />
                                     <Label Grid.Column="2" Text="{Binding Cost}" />
                                     <Label Grid.Column="3" Text="{Binding Weight}" />
                                     <Label Grid.Column="4" Text="{Binding Colour}" />
@@ -39,45 +40,54 @@
                 </CollectionView>
             </Border>
         </StackLayout>
-        <ScrollView>
+        <ScrollView Grid.Column="1">
             <VerticalStackLayout>
                 <!--  Statistics reporting  -->
                 <StackLayout>
                     <Label Text="Prices Information" />
                     <Label Text="{Binding PricesInfo}" />
                     <Label Text="Livestock statistics reporting and investment profit forecasting" />
-                    <Label Text="{Binding StatisticsReporting}" />
+                    <Label Text="{Binding StatisticsReport}" />
                     <Label Text="Query farm livestock from type and colour" />
                 </StackLayout>
                 <!--  Query form  -->
                 <StackLayout>
                     <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*">
-                        <Label Grid.ColumnSpan="2" Text="{Binding VerifyInfo}" />
-                        <Label Grid.Row="1" Text="Type" />
-                        <Label Grid.Row="2" Text="Colour" />
+                        <Label Grid.ColumnSpan="2" Text="{Binding QueryVerifyInfo}" />
+
                         <Picker
+                            Title="Select a Type"
                             Grid.Row="1"
-                            Grid.Column="1"
-                            SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                            ItemsSource="{Binding Types}"
+                            SelectedItem="{Binding QueryByType}"
+                            TitleColor="Gray" />
+
                         <Picker
+                            Title="Select a Colour"
                             Grid.Row="2"
-                            Grid.Column="1"
-                            SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                            ItemsSource="{Binding Colours}"
+                            SelectedItem="{Binding QueryByColour}"
+                            TitleColor="Gray" />
+
                         <Button
                             Grid.Row="3"
-                            Clicked="Query_ResetBTN_Clicked"
+                            Command="{Binding QueryCommand}"
+                            CommandParameter="Reset"
                             Text="Reset" />
                         <Button
                             Grid.Row="3"
                             Grid.Column="1"
-                            Clicked="Query_ApplyBTN_Clicked"
+                            Command="{Binding QueryCommand}"
+                            CommandParameter="Apply"
                             Text="Apply" />
+
+                        <!--  Query Result  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Text="{Binding QueryResult}" />
                     </Grid>
-                </StackLayout>
-                <!--  Query Result  -->
-                <StackLayout>
-                    <Label Text="Query Result" />
-                    <Label Text="{Binding QueryResult}" />
                 </StackLayout>
                 <!--  Modify  -->
                 <StackLayout>

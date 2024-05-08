@@ -19,6 +19,8 @@ namespace Task4_MVVE
     		builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<LivestockViewModel>();
             return builder.Build();
         }
     }
