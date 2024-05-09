@@ -21,6 +21,13 @@ public class Cow : Livestock
     {
         return base.ToString() + ", Milk " + Milk.ToString() + " kg";
     }
+    public Cow()
+    {
+        Cost = 0;
+        Weight = 0;
+        Colour = "";
+        Milk = 0;
+    }
     public Cow(string cost, string weight, string colour, string milk)
     {
         Cost = Util.VerifyFloat(cost);
@@ -36,6 +43,13 @@ public class Sheep : Livestock
     public override string ToString()
     {
         return base.ToString() + ", Wool " + Wool.ToString() + " kg";
+    }
+    public Sheep()
+    {
+        Cost = 0;
+        Weight = 0;
+        Colour = "";
+        Wool = 0;
     }
     public Sheep(string cost, string weight, string colour, string wool)
     {

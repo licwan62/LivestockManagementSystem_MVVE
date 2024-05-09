@@ -7,7 +7,6 @@ public class Database
     public SQLiteConnection connection;
     public Database()
     {
-        #region Load Database
         string dbName = "FarmDataOriginal.db";
         string dbPath = Path.Combine(Current.AppDataDirectory, dbName);
         if (!File.Exists(dbPath))
@@ -18,7 +17,6 @@ public class Database
             File.WriteAllBytesAsync(dbPath, memoryStream.ToArray());
         }
         connection = new SQLiteConnection(dbPath);
-        #endregion Load Database
     }
     /// <summary>
     /// Convert SQLiteConnection to List of Livestock

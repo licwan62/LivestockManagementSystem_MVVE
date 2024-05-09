@@ -2,6 +2,11 @@
 
 public class Util
 {
+    public LivestockViewModel vm;
+    public Util(LivestockViewModel vm)
+    {
+        this.vm = vm;
+    }
     #region Verify
     public static readonly int bad_int = int.MaxValue;// empty or not numeric
     public static readonly float bad_float = float.MaxValue;// empty or not numeric
@@ -43,15 +48,9 @@ public class Util
         return string.Format("{0:N2}", input);
     }
     #endregion Verify
-    public LivestockViewModel vm;
-    public Util(LivestockViewModel vm)
-    {
-        this.vm = vm;
-    }
-    private static float milk_price_rate = 9.4f,
+    private float milk_price_rate = 9.4f,
         wool_price_rate = 6.2f,
-        tax_rate = 0.2f,
-        cowAveProfit, sheepAveProfit;
+        tax_rate = 0.2f;
     #region Prices Info
     public string GetPricesInfo()
     {
@@ -72,39 +71,48 @@ public class Util
     public string GetStatisticsReport()
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(GetTax(30));
-        sb.Append(GetDailyProfit());
-        sb.Append(GetAverageWeightAll());
-        sb.Append(GetCurrentProfit());
+        if (vm.Livestocks == null)
+        {
+            sb.AppendLine("Null Livestocks");
+        }
+        else
+        {
+            sb.Append(GetTax(30));
+            sb.Append(GetDailyProfit());
+            sb.Append(GetAverageWeightAll());
+            sb.Append(GetCurrentProfit());
+        }
         return sb.ToString();
     }
     private string GetTax(int day)
     {
         float tax = vm.Livestocks.Sum(a => a.Weight * tax_rate) * day;
-        return $"Farm daily profit :  {Format(tax)}\n";
+        return $"Monthly Tax : ${Format(tax)}\n";
     }
     private string GetDailyProfit()
     {
         float allProfit = 0;
         allProfit += vm.Cows.Sum(c => c.Milk * milk_price_rate - c.Cost - c.Weight * tax_rate);
         allProfit += vm.Sheeps.Sum(s => s.Wool * wool_price_rate - s.Cost - s.Weight * tax_rate);
-        return $"Farm daily profit :  ${Format(allProfit)}\n";
+        return $"Farm daily profit : ${Format(allProfit)}\n";
     }
     private string GetAverageWeightAll()
     {
         float weight = vm.Livestocks.Average(x => x.Weight);
-        return $"Average weight of all Livestocks :  {Format(weight)} kg\n";
+        return $"Average weight of all Livestocks : {Format(weight)} kg\n";
     }
+
+    private float cowAveProfit, sheepAveProfit;
     private string GetCurrentProfit()
     {
         cowAveProfit = vm.Cows.Average(c => c.Milk * milk_price_rate - c.Cost - c.Weight * tax_rate);
         sheepAveProfit = vm.Sheeps.Average(s => s.Wool * wool_price_rate - s.Cost - s.Weight * tax_rate);
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("Based on current livestock data:");
-        sb.AppendLine($"  On average, a single cow makes daily profit:  ${Format(cowAveProfit)}");
-        sb.AppendLine($"  On average, a single sheep makes daily profit:  ${Format(sheepAveProfit)}");
-        sb.AppendLine($"Current daily profit of all sheep is  ${Format(sheepAveProfit * vm.Sheeps.Count)}");
-        sb.AppendLine($"Current daily profit of all vm.Cows is  ${Format(cowAveProfit * vm.Cows.Count)}");
+        sb.AppendLine($"  On average, a single cow makes daily profit: ${Format(cowAveProfit)}");
+        sb.AppendLine($"  On average, a single sheep makes daily profit: ${Format(sheepAveProfit)}");
+        sb.AppendLine($"Current daily profit of all sheep is ${Format(sheepAveProfit * vm.Sheeps.Count)}");
+        sb.AppendLine($"Current daily profit of all vm.Cows is ${Format(cowAveProfit * vm.Cows.Count)}");
         return sb.ToString();
     }
     #endregion Statistics Report

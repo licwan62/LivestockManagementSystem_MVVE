@@ -59,6 +59,7 @@
                             Title="Select a Type"
                             Grid.Row="1"
                             ItemsSource="{Binding Types}"
+                            SelectedIndexChanged="Query_SenderChanged"
                             SelectedItem="{Binding QueryByType}"
                             TitleColor="Gray" />
 
@@ -66,19 +67,20 @@
                             Title="Select a Colour"
                             Grid.Row="2"
                             ItemsSource="{Binding Colours}"
+                            SelectedIndexChanged="Query_SenderChanged"
                             SelectedItem="{Binding QueryByColour}"
                             TitleColor="Gray" />
 
                         <Button
                             Grid.Row="3"
                             Command="{Binding QueryCommand}"
-                            CommandParameter="0"
+                            CommandParameter="Reset"
                             Text="Reset" />
                         <Button
                             Grid.Row="3"
                             Grid.Column="1"
                             Command="{Binding QueryCommand}"
-                            CommandParameter="1"
+                            CommandParameter="Apply"
                             Text="Apply" />
 
                         <!--  Query Result  -->
@@ -101,40 +103,45 @@
                                 Title="Type"
                                 Grid.Row="1"
                                 ItemsSource="{Binding Types}"
+                                SelectedIndexChanged="Insert_SenderChanged"
                                 SelectedItem="{Binding InsertType}" />
                             <!--  cost  -->
                             <Entry
                                 Grid.Row="2"
                                 Placeholder="Cost of new livestock"
-                                Text="{Binding InsertCost}" />
+                                Text="{Binding InsertCost}"
+                                TextChanged="Insert_SenderChanged" />
                             <!--  weight  -->
                             <Entry
                                 Grid.Row="3"
                                 Placeholder="Weight of new livestock"
-                                Text="{Binding InsertWeight}" />
+                                Text="{Binding InsertWeight}"
+                                TextChanged="Insert_SenderChanged" />
                             <!--  colour  -->
                             <Picker
                                 Title="Colour"
                                 Grid.Row="4"
                                 ItemsSource="{Binding Colours}"
+                                SelectedIndexChanged="Insert_SenderChanged"
                                 SelectedItem="{Binding InsertColour}" />
                             <!--  produce  -->
                             <Entry
                                 Grid.Row="5"
                                 Grid.Column="1"
                                 Placeholder="{Binding InsertProduce_Placeholder}"
-                                Text="{Binding InsertProduce}" />
+                                Text="{Binding InsertProduce}"
+                                TextChanged="Insert_SenderChanged" />
 
                             <Button
                                 Grid.Row="6"
                                 Command="{Binding InsertCommand}"
-                                CommandParameter="0"
+                                CommandParameter="Reset"
                                 Text="Reset" />
                             <Button
                                 Grid.Row="6"
                                 Grid.Column="1"
                                 Command="{Binding InsertCommand}"
-                                CommandParameter="1"
+                                CommandParameter="Apply"
                                 Text="Apply" />
 
                             <!--  Insertion Result  -->
