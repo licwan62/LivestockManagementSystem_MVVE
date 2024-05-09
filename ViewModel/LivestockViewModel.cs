@@ -2,47 +2,55 @@
 
 public partial class LivestockViewModel : ObservableObject
 {
-    Util util;
-    Database database;
+    Util _util;
+    Database _database;
+    readonly string defaultResult = "Empty Result";
     public LivestockViewModel()
     {
-        database = new Database();
         Livestocks = new ObservableCollection<Livestock>();
-        database.ToList().ForEach(l => Livestocks?.Add(l));
-        util = new Util(this);
-        PricesInfo = util.GetPricesInfo();
-        StatisticsReport = util.GetStatisticsReport();
-
-        SetQVInfoCommand = new Command(SetQVInfo);
-        //QueryCommand = new Command<string>(Query);
-
+        _database = new Database();
+        _util = new Util(this);
+        _database.ToList().ForEach(l => Livestocks?.Add(l));
+        PricesInfo = _util.GetPricesInfo();
+        StatisticsReport = _util.GetStatisticsReport();
+        Init();
     }
-    // Collection view
-    [ObservableProperty] private ObservableCollection<Livestock> livestocks;
-    public ObservableCollection<Cow> Cows { get => new ObservableCollection<Cow>(Livestocks.OfType<Cow>()); }
-    public ObservableCollection<Sheep> Sheeps { get => new ObservableCollection<Sheep>(Livestocks.OfType<Sheep>()); }
-    // Statistics reporting
-    [ObservableProperty] private string pricesInfo, statisticsReport;
-    // query form
-    [ObservableProperty]
+    private void Init()
+    {
+        QueryResult = defaultResult;
+        SetInsertProducePlaceholderCommand.Execute(null);
+    }
+
+    #region collection view
+    [ObservableProperty] private ObservableCollection<Livestock> _livestocks;
+    public ObservableCollection<Cow> Cows
+    { get => new ObservableCollection<Cow>(Livestocks.OfType<Cow>()); }
+    public ObservableCollection<Sheep> Sheeps
+    { get => new ObservableCollection<Sheep>(Livestocks.OfType<Sheep>()); }
+    #endregion collection view
+
+    [ObservableProperty]// Statistics reporting
+    private string _pricesInfo, _statisticsReport;
+
+    #region query
+    [ObservableProperty]// picker's items
     private string[] types = { "Cow", "Sheep" },
         colours = { "Red", "Black", "White", "All" };
-    [ObservableProperty] private string queryVerifyInfo, queryByType, queryByColour, queryResult;
+    [ObservableProperty]
+    private string _queryVerifyInfo,
+        _queryByType, _queryByColour, _queryResult;
     private bool QueryCondition
     {// 2 Pickers selected
         get => !string.IsNullOrEmpty(QueryByType)
             && !string.IsNullOrEmpty(QueryByColour);
     }
-    public ICommand SetQVInfoCommand { get; }
-    private void SetQVInfo()
+    [RelayCommand]
+    private void SetQueryVerifyInfo()
     {
         string? type = (QueryByType == null) ? "Type not selected " : "";
         string? colour = (QueryByColour == null) ? "Colour not selected" : "";
         QueryVerifyInfo = type + colour;
     }
-    // Insert form
-    private readonly string defaultResult = "Empty Result";
-    //public ICommand QueryCommand { get; }
     [RelayCommand]
     private void Query(string para)
     {
@@ -58,7 +66,7 @@ public partial class LivestockViewModel : ObservableObject
         {
             if (QueryCondition)
             {
-                QueryResult = util.GetQueryDetail(QueryByType, QueryByColour);
+                QueryResult = _util.GetQueryDetail(QueryByType, QueryByColour);
             }
             else
             {
@@ -66,6 +74,7 @@ public partial class LivestockViewModel : ObservableObject
             }
         }
     }
+    #endregion query
     #region Insert
     private string produceName
     {
@@ -79,15 +88,26 @@ public partial class LivestockViewModel : ObservableObject
             }
         }
     }
+    [RelayCommand]
     private void SetInsertVerifyInfo()
     {
-        string? type = InsertType == null ? "Type not Selected" : "";
-        string? cost = InsertCost == null ? "Empty Cost" : "";
-        string? weight = InsertWeight == null ? "Empty Weight" : "";
-        string? colour = InsertColour == null ? "Colour not Selected" : "";
-        string? produce = InsertProduce == null ? $"Empty {produceName}" : "";
-        InsertVerifyInfo = type + cost + weight + colour + produce;
+        string? type = string.IsNullOrEmpty(InsertType) ?
+            "*Empty Type" : "";
+        string? cost = string.IsNullOrEmpty(InsertCost) ?
+            "*Empty Cost" : Util.VerifyFloat(InsertCost) == Util.bad_float ?
+            "*Invalid Cost" : "";
+        string? weight = string.IsNullOrEmpty(InsertWeight) ?
+            "*Empty Weight" : Util.VerifyFloat(InsertWeight) == Util.bad_float ?
+            "*Invalid Weight" : "";
+        string? colour = string.IsNullOrEmpty(InsertColour) ?
+            "*Empty Colour" : "";
+        string? produce = string.IsNullOrEmpty(InsertProduce) ?
+            $"*Empty {produceName}" : Util.VerifyFloat(InsertProduce) == Util.bad_float ?
+            $"*Invalid {produceName}" : "";
+        InsertVerifyInfo = string.Format("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}",
+            type, cost, weight, colour, produce);
     }
+    [RelayCommand]
     private void SetInsertProducePlaceholder()
     {
         InsertProduce_Placeholder = $"Enter the Weight of its {produceName}";
@@ -132,13 +152,13 @@ public partial class LivestockViewModel : ObservableObject
                 if (InsertType == "Cow")
                 {
                     Cow newCow = new Cow(InsertCost, InsertWeight, InsertColour, InsertProduce);
-                    inserted = database.Insert(newCow) > 0;
+                    inserted = _database.Insert(newCow) > 0;
                     sb.AppendLine(newCow.ToString());
                 }
                 else if (InsertType == "Sheep")
                 {
                     Sheep newSheep = new Sheep(InsertCost, InsertWeight, InsertColour, InsertProduce);
-                    inserted = database.Insert(newSheep) > 0;
+                    inserted = _database.Insert(newSheep) > 0;
                     sb.AppendLine(newSheep.ToString());
                 }
                 // pop window remind success

@@ -11,21 +11,15 @@ public partial class MainPage : ContentPage
 		BindingContext = vm;
         this.vm = vm;
 	}
+    private void Query_SenderChanged(object sender, EventArgs e)
+    {
+        vm.SetQueryVerifyInfoCommand.Execute(null);
+    }
 
     private void Insert_SenderChanged(object sender, EventArgs e)
     {
-        if (sender.GetType() == typeof(Picker))
-        {
-            Debug.WriteLine(sender.ToString());
-        }
+        vm.SetInsertVerifyInfoCommand.Execute(null);
+        vm.SetInsertProducePlaceholderCommand.Execute(null);
     }
 
-    private void Query_SenderChanged(object sender, EventArgs e)
-    {
-        if (sender.GetType() == typeof(Picker))
-        {
-            Debug.WriteLine(sender.ToString());
-        }
-
-    }
 }

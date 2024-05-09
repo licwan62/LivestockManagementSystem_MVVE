@@ -127,7 +127,6 @@
                             <!--  produce  -->
                             <Entry
                                 Grid.Row="5"
-                                Grid.Column="1"
                                 Placeholder="{Binding InsertProduce_Placeholder}"
                                 Text="{Binding InsertProduce}"
                                 TextChanged="Insert_SenderChanged" />
