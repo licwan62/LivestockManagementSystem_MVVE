@@ -72,13 +72,13 @@
                         <Button
                             Grid.Row="3"
                             Command="{Binding QueryCommand}"
-                            CommandParameter="Reset"
+                            CommandParameter="0"
                             Text="Reset" />
                         <Button
                             Grid.Row="3"
                             Grid.Column="1"
                             Command="{Binding QueryCommand}"
-                            CommandParameter="Apply"
+                            CommandParameter="1"
                             Text="Apply" />
 
                         <!--  Query Result  -->
@@ -96,53 +96,53 @@
                         <Label Text="Add new Livestock" />
                         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*">
                             <Label Grid.ColumnSpan="2" Text="{Binding InsertVerifyInfo}" />
-
-                            <Label Grid.Row="1" Text="Type" />
+                            <!--  type  -->
                             <Picker
+                                Title="Type"
                                 Grid.Row="1"
-                                Grid.Column="1"
                                 ItemsSource="{Binding Types}"
-                                SelectedItem="{Binding SelectedType}" />
-
-                            <Label Grid.Row="2" Text="Cost" />
+                                SelectedItem="{Binding InsertType}" />
+                            <!--  cost  -->
                             <Entry
                                 Grid.Row="2"
-                                Grid.Column="1"
                                 Placeholder="Cost of new livestock"
                                 Text="{Binding InsertCost}" />
-
-                            <Label Grid.Row="3" Text="Weight" />
+                            <!--  weight  -->
                             <Entry
                                 Grid.Row="3"
-                                Grid.Column="1"
                                 Placeholder="Weight of new livestock"
                                 Text="{Binding InsertWeight}" />
-
-                            <Label Grid.Row="4" Text="Colour" />
+                            <!--  colour  -->
                             <Picker
+                                Title="Colour"
                                 Grid.Row="4"
-                                Grid.Column="1"
                                 ItemsSource="{Binding Colours}"
-                                SelectedItem="{Binding SelectedColour}" />
-
-                            <Label Grid.Row="5" Text="{Binding ProductType}" />
+                                SelectedItem="{Binding InsertColour}" />
+                            <!--  produce  -->
                             <Entry
                                 Grid.Row="5"
                                 Grid.Column="1"
-                                Placeholder="Weight of product from new livestock"
-                                Text="{Binding InsertWeight}" />
+                                Placeholder="{Binding InsertProduce_Placeholder}"
+                                Text="{Binding InsertProduce}" />
 
                             <Button
                                 Grid.Row="6"
-                                Command="{Binding Reset}"
-                                CommandParameter="Insert"
+                                Command="{Binding InsertCommand}"
+                                CommandParameter="0"
                                 Text="Reset" />
                             <Button
                                 Grid.Row="6"
                                 Grid.Column="1"
-                                Command="{Binding Apply}"
-                                CommandParameter="Insert"
-                                Text="Reset" />
+                                Command="{Binding InsertCommand}"
+                                CommandParameter="1"
+                                Text="Apply" />
+
+                            <!--  Insertion Result  -->
+                            <Label
+                                Grid.Row="1"
+                                Grid.RowSpan="5"
+                                Grid.Column="1"
+                                Text="{Binding InsertResult}" />
                         </Grid>
                     </StackLayout>
                     <!--  Insert Info  -->
