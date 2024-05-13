@@ -22,4 +22,8 @@ public partial class MainPage : ContentPage
         vm.SetInsertProducePlaceholderCommand.Execute(null);
     }
 
+    private void Delete_TextChanged(System.Object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
+    {
+        vm.SetDeleteVerifyInfoCommand.Execute(null);
+    }
 }

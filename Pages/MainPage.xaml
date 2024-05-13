@@ -73,14 +73,13 @@
 
                         <Button
                             Grid.Row="3"
-                            Command="{Binding QueryCommand}"
-                            CommandParameter="Reset"
+                            Command="{Binding ResetCommand}"
+                            CommandParameter="Query"
                             Text="Reset" />
                         <Button
                             Grid.Row="3"
                             Grid.Column="1"
                             Command="{Binding QueryCommand}"
-                            CommandParameter="Apply"
                             Text="Apply" />
 
                         <!--  Query Result  -->
@@ -133,14 +132,13 @@
 
                             <Button
                                 Grid.Row="6"
-                                Command="{Binding InsertCommand}"
-                                CommandParameter="Reset"
+                                Command="{Binding ResetCommand}"
+                                CommandParameter="Insert"
                                 Text="Reset" />
                             <Button
                                 Grid.Row="6"
                                 Grid.Column="1"
                                 Command="{Binding InsertCommand}"
-                                CommandParameter="Apply"
                                 Text="Apply" />
 
                             <!--  Insertion Result  -->
@@ -151,40 +149,34 @@
                                 Text="{Binding InsertResult}" />
                         </Grid>
                     </StackLayout>
-                    <!--  Insert Info  -->
-                    <StackLayout>
-                        <Label Text="Delete Info" />
-                        <Label Text="{Binding DeleteInfo}" />
-                    </StackLayout>
                     <!--  Delete  -->
                     <StackLayout>
                         <Label Text="Remove Livestock by ID" />
                         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
                             <Label Grid.ColumnSpan="2" Text="{Binding DeleteVerifyInfo}" />
 
-                            <Label Grid.Row="1" Text="ID" />
                             <Entry
                                 Grid.Row="1"
-                                Grid.Column="1"
-                                Placeholder="Enter a ID number to remove" />
+                                Placeholder="Enter a ID number to remove"
+                                Text="{Binding DeleteID}"
+                                TextChanged="Delete_TextChanged" />
 
                             <Button
                                 Grid.Row="2"
-                                Command="{Binding Reset}"
+                                Command="{Binding ResetCommand}"
                                 CommandParameter="Delete"
                                 Text="Reset" />
                             <Button
                                 Grid.Row="2"
                                 Grid.Column="1"
-                                Command="{Binding Apply}"
-                                CommandParameter="Delete"
+                                Command="{Binding DeleteCommand}"
                                 Text="Apply" />
+                            <!--  Delete Info  -->
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding DeleteResult}" />
                         </Grid>
-                    </StackLayout>
-                    <!--  Delete Info  -->
-                    <StackLayout>
-                        <Label Text="Remove Info" />
-                        <Label Text="{Binding DeleteInfo}" />
                     </StackLayout>
                     <!--  Update  -->
                     <StackLayout>
@@ -250,19 +242,6 @@
                                     Command="{Binding Apply}"
                                     CommandParameter="Insert"
                                     Text="Reset" />
-                            </Grid>
-                        </StackLayout>
-                        <StackLayout>
-                            <Grid ColumnDefinitions="*,*">
-                                <Button
-                                    Command="{Binding Reset}"
-                                    CommandParameter="Update"
-                                    Text="Reset" />
-                                <Button
-                                    Grid.Column="1"
-                                    Command="{Binding Apply}"
-                                    CommandParameter="Update"
-                                    Text="Apply" />
                             </Grid>
                         </StackLayout>
                     </StackLayout>

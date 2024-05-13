@@ -133,7 +133,7 @@ public class Util
         int num;
         float percent, tax, profit, ave_weight, produce;
         if (type == "Cow")
-        {
+        {// specify list as type and colour 
             List<Cow> Cows_query;
             if (colour == "All")
                 Cows_query = vm.Cows.ToList();
@@ -170,7 +170,8 @@ public class Util
                 produce = Sheeps_query.Sum(a => a.Wool);
             }
         }
-        else return string.Empty;
+        else return "";
+        // return string
         StringBuilder sb = new StringBuilder();
         sb.AppendLine($"Number of livestiocks ({type} in {colour}): {num.ToString()}");
         sb.AppendLine($"Percentage of selected Livestocks: {string.Format("{0:N1}", percent)}%");
