@@ -109,10 +109,10 @@ public class Util
         sheepAveProfit = vm.Sheeps.Average(s => s.Wool * wool_price_rate - s.Cost - s.Weight * tax_rate);
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("Based on current livestock data:");
-        sb.AppendLine($"  On average, a single cow makes daily profit: ${Format(cowAveProfit)}");
-        sb.AppendLine($"  On average, a single sheep makes daily profit: ${Format(sheepAveProfit)}");
-        sb.AppendLine($"Current daily profit of all sheep is ${Format(sheepAveProfit * vm.Sheeps.Count)}");
-        sb.AppendLine($"Current daily profit of all vm.Cows is ${Format(cowAveProfit * vm.Cows.Count)}");
+        sb.AppendLine($"- On average, a single cow makes daily profit: ${Format(cowAveProfit)}");
+        sb.AppendLine($"- On average, a single sheep makes daily profit: ${Format(sheepAveProfit)}");
+        sb.AppendLine($"Current daily profit of all Sheep : ${Format(sheepAveProfit * vm.Sheeps.Count)}");
+        sb.AppendLine($"Current daily profit of all Cows : ${Format(cowAveProfit * vm.Cows.Count)}");
         return sb.ToString();
     }
     #endregion Statistics Report

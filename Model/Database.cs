@@ -5,19 +5,23 @@ namespace Task4_MVVE.Model;
 public class Database
 {
     public SQLiteConnection connection;
+    string dbName = "FarmData.db";
+    string originalDbName = "FarmDataOriginal.db";
+    string dbPath;
     public Database()
     {
-        string dbName = "FarmDataOriginal.db";
-        string dbPath = Path.Combine(Current.AppDataDirectory, dbName);
+        dbPath = Path.Combine(Current.AppDataDirectory, dbName);
         if (!File.Exists(dbPath))
-        {// create or overwite db in dbPath from db in Resources
-            using Stream stream = Current.OpenAppPackageFileAsync(dbName).Result;
+        {// copy database in dbPath from database in Resources file
+            using Stream stream = OpenAppPackageFileAsync(originalDbName).Result;
             using MemoryStream memoryStream = new MemoryStream();
             stream.CopyTo(memoryStream);
             File.WriteAllBytesAsync(dbPath, memoryStream.ToArray());
         }
         connection = new SQLiteConnection(dbPath);
+        Debug.WriteLine(dbPath);
     }
+
     /// <summary>
     /// Convert SQLiteConnection to List of Livestock
     /// </summary>
