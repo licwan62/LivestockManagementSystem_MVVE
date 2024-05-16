@@ -35,6 +35,14 @@ public class Cow : Livestock
         Colour = colour;
         Milk = Util.VerifyFloat(milk);
     }
+    public Cow(string id, string cost, string weight, string colour, string milk)
+    {
+        Id = Util.VerifyInt(id);
+        Cost = Util.VerifyFloat(cost);
+        Weight = Util.VerifyFloat(weight);
+        Colour = colour;
+        Milk = Util.VerifyFloat(milk);
+    }
 }
 [Table("Sheep")]
 public class Sheep : Livestock
@@ -53,6 +61,14 @@ public class Sheep : Livestock
     }
     public Sheep(string cost, string weight, string colour, string wool)
     {
+        Cost = Util.VerifyFloat(cost);
+        Weight = Util.VerifyFloat(weight);
+        Colour = colour;
+        Wool = Util.VerifyFloat(wool);
+    }
+    public Sheep(string id, string cost, string weight, string colour, string wool)
+    {
+        Id = Util.VerifyInt(id);
         Cost = Util.VerifyFloat(cost);
         Weight = Util.VerifyFloat(weight);
         Colour = colour;
