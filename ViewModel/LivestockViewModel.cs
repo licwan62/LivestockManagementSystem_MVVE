@@ -1,4 +1,6 @@
-﻿namespace Task4_MVVE.ViewModel;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+
+namespace Task4_MVVE.ViewModel;
 
 public partial class LivestockViewModel : ObservableObject
 {
@@ -73,6 +75,7 @@ public partial class LivestockViewModel : ObservableObject
     }
 
     #region query
+    // Properties
     [ObservableProperty]
     string _queryResult;
 

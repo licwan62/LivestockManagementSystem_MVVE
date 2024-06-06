@@ -55,27 +55,6 @@
         </StackLayout>
         <!--  Operation in right  -->
         <ScrollView Grid.Column="1">
-            <!--  Style setting  -->
-            <ScrollView.Resources>
-                <Style x:Key="Heading" TargetType="Label">
-                    <Setter Property="FontSize" Value="18" />
-                    <Setter Property="FontAttributes" Value="Bold" />
-                    <Setter Property="TextColor" Value="#3B3B3B" />
-                </Style>
-                <Style x:Key="RedItalic" TargetType="Label">
-                    <Setter Property="FontAttributes" Value="Italic" />
-                    <Setter Property="TextColor" Value="PaleVioletRed" />
-                </Style>
-                <Style x:Key="Result" TargetType="Label">
-                    <Setter Property="FontSize" Value="18" />
-                    <Setter Property="FontAttributes" Value="Bold" />
-                    <Setter Property="TextColor" Value="#3B3B3B" />
-                    <Setter Property="Padding" Value="10" />
-                </Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Padding" Value="20" />
-                </Style>
-            </ScrollView.Resources>
             <VerticalStackLayout>
                 <!--  Statistics reporting  -->
                 <StackLayout>
@@ -86,27 +65,24 @@
                 </StackLayout>
                 <!--  Query  -->
                 <StackLayout>
-                    <!--  Headline  -->
-                    <Label Style="{StaticResource Headline}" Text="Query" />
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
-                        <!--  Type  -->
-                        <Label Style="{StaticResource Heading}" Text="Type" />
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*">
+                        <Label Grid.ColumnSpan="2" Text="{Binding QueryVerifyInfo}" />
+
                         <Picker
                             Grid.Column="1"
                             ItemsSource="{Binding Types}"
-                            SelectedItem="{Binding QueryType}" />
-                        <!--  Colour  -->
-                        <Label
-                            Grid.Row="1"
-                            Style="{StaticResource Heading}"
-                            Text="Colour" />
+                            SelectedIndexChanged="Query_SenderChanged"
+                            SelectedItem="{Binding QueryByType}"
+                            TitleColor="Gray" />
+
                         <Picker
                             Grid.Row="1"
                             Grid.Column="1"
                             ItemsSource="{Binding Colours}"
-                            SelectedItem="{Binding QueryColour}" />
-                    </Grid>
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
+                            SelectedIndexChanged="Query_SenderChanged"
+                            SelectedItem="{Binding QueryByColour}"
+                            TitleColor="Gray" />
+
                         <Button
                             Command="{Binding ResetCommand}"
                             CommandParameter="Query"
@@ -119,116 +95,101 @@
                     <!--  Query Result  -->
                     <Label Style="{StaticResource Result}" Text="{Binding QueryResult}" />
                 </StackLayout>
-                <!--  Insert  -->
+                <!--  Modify  -->
                 <StackLayout>
-                    <Label Style="{StaticResource Headline}" Text="Add new Livestock" />
-                    <Grid ColumnDefinitions="*,2*" RowDefinitions="*,*,*,*,*,*">
-                        <Label
-                            Grid.ColumnSpan="2"
-                            Style="{StaticResource RedItalic}"
-                            Text="{Binding InsertVerifyInfo}" />
-                        <!--  Insert Type  -->
-                        <Label
-                            Grid.Row="1"
-                            Style="{StaticResource Heading}"
-                            Text="Type" />
-                        <Picker
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            ItemsSource="{Binding Types}"
-                            SelectedItem="{Binding InsertType}" />
-                        <!--  Insert Cost  -->
-                        <Label
-                            Grid.Row="2"
-                            Style="{StaticResource Heading}"
-                            Text="Cost" />
-                        <Entry
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Placeholder="Enter the number of new Cost"
-                            Text="{Binding InsertCost}" />
-                        <!--  Insert Weight  -->
-                        <Label
-                            Grid.Row="3"
-                            Style="{StaticResource Heading}"
-                            Text="Weight" />
-                        <Entry
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Placeholder="Enter the number of new Weight"
-                            Text="{Binding InsertWeight}" />
-                        <!--  Insert Colour  -->
-                        <Label
-                            Grid.Row="4"
-                            Style="{StaticResource Heading}"
-                            Text="Colour" />
-                        <Picker
-                            Grid.Row="4"
-                            Grid.Column="1"
-                            ItemsSource="{Binding Colours}"
-                            SelectedItem="{Binding InsertColour}" />
-                        <!--  Insert Produce Weight  -->
-                        <Label
-                            Grid.Row="5"
-                            Style="{StaticResource Heading}"
-                            Text="Produce Weight" />
-                        <Entry
-                            Grid.Row="5"
-                            Grid.Column="1"
-                            Placeholder="Enter the number of new Produce Weight"
-                            Text="{Binding InsertProduceWeight}" />
-                    </Grid>
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
-                        <Button
-                            Command="{Binding ResetCommand}"
-                            CommandParameter="Insert"
-                            Text="Reset" />
-                        <Button
-                            Grid.Column="1"
-                            Command="{Binding InsertCommand}"
-                            Text="Apply" />
-                    </Grid>
-                    <!--  Insertion Result  -->
-                    <Label Style="{StaticResource Result}" Text="{Binding InsertResult}" />
-                </StackLayout>
-                <!--  Delete  -->
-                <StackLayout>
-                    <Label Style="{StaticResource Headline}" Text="Remove Livestock" />
-                    <Grid ColumnDefinitions="*,2*" RowDefinitions="*">
-                        <Label
-                            Grid.Row="1"
-                            Style="{StaticResource Heading}"
-                            Text="ID" />
-                        <Entry
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Placeholder="Enter the removing ID number"
-                            Text="{Binding DeleteID}" />
-                    </Grid>
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
-                        <Button
-                            Command="{Binding ResetCommand}"
-                            CommandParameter="Delete"
-                            Text="Reset" />
-                        <Button
-                            Grid.Column="1"
-                            Command="{Binding DeleteCommand}"
-                            Text="Apply" />
-                    </Grid>
-                    <!--  Delete Result  -->
-                    <Label Style="{StaticResource Result}" Text="{Binding DeleteResult}" />
-                </StackLayout>
-                <!--  Update  -->
-                <StackLayout>
-                    <!--  ID Search  -->
-                    <StackLayout IsVisible="{Binding IDCheckVisible}">
-                        <Label Style="{StaticResource Headline}" Text="Update Livestock" />
-                        <Grid ColumnDefinitions="*,2*" RowDefinitions="*,*">
-                            <!--  verify  -->
+                    <!--  Insert  -->
+                    <StackLayout>
+                        <Label Text="Add new Livestock" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*">
+                            <Label Grid.ColumnSpan="2" Text="{Binding InsertVerifyInfo}" />
+                            <!--  type  -->
+                            <Picker
+                                Title="Type"
+                                Grid.Row="1"
+                                ItemsSource="{Binding Types}"
+                                SelectedIndexChanged="Insert_SenderChanged"
+                                SelectedItem="{Binding InsertType}" />
+                            <!--  cost  -->
+                            <Entry
+                                Grid.Row="2"
+                                Placeholder="Cost of new livestock"
+                                Text="{Binding InsertCost}"
+                                TextChanged="Insert_SenderChanged" />
+                            <!--  weight  -->
+                            <Entry
+                                Grid.Row="3"
+                                Placeholder="Weight of new livestock"
+                                Text="{Binding InsertWeight}"
+                                TextChanged="Insert_SenderChanged" />
+                            <!--  colour  -->
+                            <Picker
+                                Title="Colour"
+                                Grid.Row="4"
+                                ItemsSource="{Binding Colours}"
+                                SelectedIndexChanged="Insert_SenderChanged"
+                                SelectedItem="{Binding InsertColour}" />
+                            <!--  produce  -->
+                            <Entry
+                                Grid.Row="5"
+                                Placeholder="{Binding InsertProduce_Placeholder}"
+                                Text="{Binding InsertProduce}"
+                                TextChanged="Insert_SenderChanged" />
+
+                            <Button
+                                Grid.Row="6"
+                                Command="{Binding ResetCommand}"
+                                CommandParameter="Insert"
+                                Text="Reset" />
+                            <Button
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Command="{Binding InsertCommand}"
+                                Text="Apply" />
+
+                            <!--  Insertion Result  -->
                             <Label
-                                Grid.ColumnSpan="2"
-                                Style="{StaticResource RedItalic}"
-                                Text="{Binding UpdateIDVerifyInfo}" />
+                                Grid.Row="1"
+                                Grid.RowSpan="5"
+                                Grid.Column="1"
+                                Text="{Binding InsertResult}" />
+                        </Grid>
+                    </StackLayout>
+                    <!--  Delete  -->
+                    <StackLayout>
+                        <Label Text="Remove Livestock by ID" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
+                            <Label Grid.ColumnSpan="2" Text="{Binding DeleteVerifyInfo}" />
+
+                            <Entry
+                                Grid.Row="1"
+                                Placeholder="Enter a ID number to remove"
+                                Text="{Binding DeleteID}"
+                                TextChanged="Delete_TextChanged" />
+
+                            <Button
+                                Grid.Row="2"
+                                Command="{Binding ResetCommand}"
+                                CommandParameter="Delete"
+                                Text="Reset" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Command="{Binding DeleteCommand}"
+                                Text="Apply" />
+                            <!--  Delete Info  -->
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding DeleteResult}" />
+                        </Grid>
+                    </StackLayout>
+                    <!--  Update  -->
+                    <StackLayout>
+                        <!--  Search by ID  -->
+                        <StackLayout>
+                            <Label Text="Remove Livestock by ID" />
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
+                                <Label Grid.ColumnSpan="2" Text="{Binding UpdateVerifyInfo}" />
 
                             <Label
                                 Grid.Row="1"
