@@ -3,6 +3,9 @@
 public class Util
 {
     public LivestockViewModel vm;
+    private float milk_price_rate = 9.4f,
+        wool_price_rate = 6.2f,
+        tax_rate = 0.2f;
     public Util(LivestockViewModel vm)
     {
         this.vm = vm;
@@ -47,10 +50,7 @@ public class Util
     {
         return string.Format("{0:N2}", input);
     }
-    #endregion Verify
-    private float milk_price_rate = 9.4f,
-        wool_price_rate = 6.2f,
-        tax_rate = 0.2f;
+    #endregion
     #region Prices Info
     public string GetPricesInfo()
     {
@@ -60,7 +60,7 @@ public class Util
         sb.AppendLine($"Government tax :  ${tax_rate} per kg, per day");
         return sb.ToString();
     }
-    #endregion Prices Info
+    #endregion
     #region Statistics Report
     /* 1.Show how much government tax is paid by the farm per month (30 days).
      * 2.Show the total profit or loss (depending on the data) of all animals per day.
@@ -115,7 +115,6 @@ public class Util
         sb.AppendLine($"Current daily profit of all Cows : ${Format(cowAveProfit * vm.Cows.Count)}");
         return sb.ToString();
     }
-    #endregion Statistics Report
     public string GetEstimation(string type, int num)
     {
         float estimate_profit;
@@ -181,4 +180,5 @@ public class Util
         sb.AppendLine($"Produce amount: {string.Format("{0:N1}", produce)}kg");
         return sb.ToString();
     }
+    #endregion
 }

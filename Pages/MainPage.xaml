@@ -10,13 +10,14 @@
         ColumnSpacing="10"
         MaximumWidthRequest="1440"
         MinimumWidthRequest="1000">
-        <!--  Collection view in left  -->
+
+        <!--#region Table on left-->
         <StackLayout>
             <Border
                 Padding="10"
                 BackgroundColor="#F4F4F4"
                 StrokeShape="RoundRectangle 5">
-                <CollectionView ItemsSource="{Binding Livestocks}">
+                <CollectionView ItemsSource="{Binding Livestocks, Source={ViewModel:LivestockViewModel}}">
                     <CollectionView.Header>
                         <Border
                             Margin="0,10"
@@ -53,17 +54,38 @@
                 </CollectionView>
             </Border>
         </StackLayout>
-        <!--  Operation in right  -->
+        <!--#endregion-->
+        <!--#region Operation on right-->
         <ScrollView Grid.Column="1">
+
+            <ScrollView.Resources>
+                <Style x:Key="Heading" TargetType="Label">
+                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="FontAttributes" Value="Bold" />
+                    <Setter Property="TextColor" Value="#3B3B3B" />
+                </Style>
+                <Style x:Key="RedItalic" TargetType="Label">
+                    <Setter Property="FontAttributes" Value="Italic" />
+                    <Setter Property="TextColor" Value="PaleVioletRed" />
+                </Style>
+                <Style x:Key="Result" TargetType="Label">
+                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="FontAttributes" Value="Bold" />
+                    <Setter Property="TextColor" Value="#3B3B3B" />
+                    <Setter Property="Padding" Value="10" />
+                </Style>
+            </ScrollView.Resources>
+
             <VerticalStackLayout>
-                <!--  Statistics reporting  -->
+                <!--#region Statistics-->
                 <StackLayout>
                     <Label Style="{StaticResource Headline}" Text="Prices Information" />
                     <Label Style="{StaticResource Heading}" Text="{Binding PricesInfo}" />
                     <Label Style="{StaticResource Headline}" Text="Statistics and Profit Forecasting" />
                     <Label Style="{StaticResource Heading}" Text="{Binding StatisticsReport}" />
                 </StackLayout>
-                <!--  Query  -->
+                <!--#endregion-->
+                <!--#region Query-->
                 <StackLayout>
                     <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*">
                         <Label Grid.ColumnSpan="2" Text="{Binding QueryVerifyInfo}" />
@@ -71,7 +93,6 @@
                         <Picker
                             Grid.Column="1"
                             ItemsSource="{Binding Types}"
-                            SelectedIndexChanged="Query_SenderChanged"
                             SelectedItem="{Binding QueryByType}"
                             TitleColor="Gray" />
 
@@ -79,7 +100,6 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             ItemsSource="{Binding Colours}"
-                            SelectedIndexChanged="Query_SenderChanged"
                             SelectedItem="{Binding QueryByColour}"
                             TitleColor="Gray" />
 
@@ -95,101 +115,94 @@
                     <!--  Query Result  -->
                     <Label Style="{StaticResource Result}" Text="{Binding QueryResult}" />
                 </StackLayout>
-                <!--  Modify  -->
+                <!--#endregion-->
+                <!--#region Insert-->
                 <StackLayout>
-                    <!--  Insert  -->
-                    <StackLayout>
-                        <Label Text="Add new Livestock" />
-                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*">
-                            <Label Grid.ColumnSpan="2" Text="{Binding InsertVerifyInfo}" />
-                            <!--  type  -->
-                            <Picker
-                                Title="Type"
-                                Grid.Row="1"
-                                ItemsSource="{Binding Types}"
-                                SelectedIndexChanged="Insert_SenderChanged"
-                                SelectedItem="{Binding InsertType}" />
-                            <!--  cost  -->
-                            <Entry
-                                Grid.Row="2"
-                                Placeholder="Cost of new livestock"
-                                Text="{Binding InsertCost}"
-                                TextChanged="Insert_SenderChanged" />
-                            <!--  weight  -->
-                            <Entry
-                                Grid.Row="3"
-                                Placeholder="Weight of new livestock"
-                                Text="{Binding InsertWeight}"
-                                TextChanged="Insert_SenderChanged" />
-                            <!--  colour  -->
-                            <Picker
-                                Title="Colour"
-                                Grid.Row="4"
-                                ItemsSource="{Binding Colours}"
-                                SelectedIndexChanged="Insert_SenderChanged"
-                                SelectedItem="{Binding InsertColour}" />
-                            <!--  produce  -->
-                            <Entry
-                                Grid.Row="5"
-                                Placeholder="{Binding InsertProduce_Placeholder}"
-                                Text="{Binding InsertProduce}"
-                                TextChanged="Insert_SenderChanged" />
+                    <Label Text="Add new Livestock" />
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*">
+                        <Label Grid.ColumnSpan="2" Text="{Binding InsertVerifyInfo}" />
+                        <!--  type  -->
+                        <Picker
+                            Title="Type"
+                            Grid.Row="1"
+                            ItemsSource="{Binding Types}"
+                            SelectedItem="{Binding InsertType}" />
+                        <!--  cost  -->
+                        <Entry
+                            Grid.Row="2"
+                            Placeholder="Cost of new livestock"
+                            Text="{Binding InsertCost}" />
+                        <!--  weight  -->
+                        <Entry
+                            Grid.Row="3"
+                            Placeholder="Weight of new livestock"
+                            Text="{Binding InsertWeight}" />
+                        <!--  colour  -->
+                        <Picker
+                            Title="Colour"
+                            Grid.Row="4"
+                            ItemsSource="{Binding Colours}"
+                            SelectedItem="{Binding InsertColour}" />
+                        <!--  produce  -->
+                        <Entry
+                            Grid.Row="5"
+                            Placeholder="{Binding InsertProduce_Placeholder}"
+                            Text="{Binding InsertProduce}" />
+                        <Button
+                            Grid.Row="6"
+                            Command="{Binding ResetCommand}"
+                            CommandParameter="Insert"
+                            Text="Reset" />
+                        <Button
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Command="{Binding InsertCommand}"
+                            Text="Apply" />
+                        <!--  Insertion Result  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.RowSpan="5"
+                            Grid.Column="1"
+                            Text="{Binding InsertResult}" />
+                    </Grid>
+                </StackLayout>
+                <!--#endregion-->
+                <!--#region Delete-->
+                <StackLayout>
+                    <Label Text="Remove Livestock by ID" />
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
+                        <Label Grid.ColumnSpan="2" Text="{Binding DeleteVerifyInfo}" />
 
-                            <Button
-                                Grid.Row="6"
-                                Command="{Binding ResetCommand}"
-                                CommandParameter="Insert"
-                                Text="Reset" />
-                            <Button
-                                Grid.Row="6"
-                                Grid.Column="1"
-                                Command="{Binding InsertCommand}"
-                                Text="Apply" />
+                        <Entry
+                            Grid.Row="1"
+                            Placeholder="Enter a ID number to remove"
+                            Text="{Binding DeleteID}" />
 
-                            <!--  Insertion Result  -->
-                            <Label
-                                Grid.Row="1"
-                                Grid.RowSpan="5"
-                                Grid.Column="1"
-                                Text="{Binding InsertResult}" />
-                        </Grid>
-                    </StackLayout>
-                    <!--  Delete  -->
+                        <Button
+                            Grid.Row="2"
+                            Command="{Binding ResetCommand}"
+                            CommandParameter="Delete"
+                            Text="Reset" />
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Command="{Binding DeleteCommand}"
+                            Text="Apply" />
+                        <!--  Delete Info  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding DeleteResult}" />
+                    </Grid>
+                </StackLayout>
+                <!--#endregion-->
+                <!--#region Update-->
+                <StackLayout>
+                    <!--  Search by ID  -->
                     <StackLayout>
                         <Label Text="Remove Livestock by ID" />
-                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
-                            <Label Grid.ColumnSpan="2" Text="{Binding DeleteVerifyInfo}" />
-
-                            <Entry
-                                Grid.Row="1"
-                                Placeholder="Enter a ID number to remove"
-                                Text="{Binding DeleteID}"
-                                TextChanged="Delete_TextChanged" />
-
-                            <Button
-                                Grid.Row="2"
-                                Command="{Binding ResetCommand}"
-                                CommandParameter="Delete"
-                                Text="Reset" />
-                            <Button
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                Command="{Binding DeleteCommand}"
-                                Text="Apply" />
-                            <!--  Delete Info  -->
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Text="{Binding DeleteResult}" />
-                        </Grid>
-                    </StackLayout>
-                    <!--  Update  -->
-                    <StackLayout>
-                        <!--  Search by ID  -->
-                        <StackLayout>
-                            <Label Text="Remove Livestock by ID" />
-                            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
-                                <Label Grid.ColumnSpan="2" Text="{Binding UpdateVerifyInfo}" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
+                            <Label Grid.ColumnSpan="2" Text="{Binding UpdateVerifyInfo}" />
 
                             <Label
                                 Grid.Row="1"
@@ -278,11 +291,14 @@
                                 Command="{Binding UpdateCommand}"
                                 Text="Apply" />
                         </Grid>
+                        <!--  Update Info  -->
+                        <Label Style="{StaticResource Result}" Text="{Binding UpdateResult}" />
                     </StackLayout>
-                    <!--  Update Info  -->
-                    <Label Style="{StaticResource Result}" Text="{Binding UpdateResult}" />
                 </StackLayout>
+                <!--#endregion-->
             </VerticalStackLayout>
         </ScrollView>
+        <!--#endregion-->
+
     </Grid>
 </ContentPage>

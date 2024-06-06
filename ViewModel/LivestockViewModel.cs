@@ -1,23 +1,10 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
-
-namespace Task4_MVVE.ViewModel;
+﻿namespace Task4_MVVE.ViewModel;
 
 public partial class LivestockViewModel : ObservableObject
 {
     Util _util;
     Database _database;
     readonly string defaultResult = "Empty Result";
-    public LivestockViewModel()
-    {
-        Livestocks = new ObservableCollection<Livestock>();
-        _database = new Database();
-        _util = new Util(this);
-        _database.ToList().ForEach(l => Livestocks?.Add(l));
-        PricesInfo = _util.GetPricesInfo();
-        StatisticsReport = _util.GetStatisticsReport();
-        Reset("");
-    }
-
     [ObservableProperty] ObservableCollection<Livestock> _livestocks;
     public ObservableCollection<Cow> Cows { get => new ObservableCollection<Cow>(Livestocks.OfType<Cow>()); }
     public ObservableCollection<Sheep> Sheeps { get => new ObservableCollection<Sheep>(Livestocks.OfType<Sheep>()); }
@@ -28,7 +15,17 @@ public partial class LivestockViewModel : ObservableObject
     [ObservableProperty]// Pickers' items
     string[] _types = { "Cow", "Sheep" },
         _colours = { "All", "White", "Black", "Red" };
-
+    public LivestockViewModel()
+    {
+        Livestocks = new ObservableCollection<Livestock>();
+        _database = new Database();
+        _util = new Util(this);
+        _database.ToList().ForEach(l => Livestocks?.Add(l));
+        PricesInfo = _util.GetPricesInfo();
+        StatisticsReport = _util.GetStatisticsReport();
+        Reset("");
+    }
+    #region Reset
     [RelayCommand]
     void Reset(string section)
     {
@@ -72,8 +69,8 @@ public partial class LivestockViewModel : ObservableObject
                 Reset("Update");
                 break;
         }
-    }
-
+    } 
+    #endregion
     #region query
     // Properties
     [ObservableProperty]
@@ -96,7 +93,6 @@ public partial class LivestockViewModel : ObservableObject
     bool CanQuery() => !string.IsNullOrEmpty(QueryType)
             && !string.IsNullOrEmpty(QueryColour);
     #endregion
-
     #region Insert
     string InsertProduce
     {
@@ -223,7 +219,6 @@ public partial class LivestockViewModel : ObservableObject
                 && Util.VerifyFloat(InsertProduceWeight) != Util.bad_float;
     }
     #endregion Insert
-
     #region Delete
     string GetDeleteVerifyInfo()
     {
@@ -285,7 +280,6 @@ public partial class LivestockViewModel : ObservableObject
     }
 
     #endregion Delete
-
     #region Update
     string updateProduceName
     {
@@ -402,5 +396,4 @@ public partial class LivestockViewModel : ObservableObject
         return condition;
     }
     #endregion Update
-
 }

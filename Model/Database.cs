@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace Task4_MVVE.Model;
+﻿namespace Task4_MVVE.Model;
 
 public class Database
 {
@@ -20,7 +18,6 @@ public class Database
             File.WriteAllBytesAsync(dbPath, memoryStream.ToArray());
         }
         connection = new SQLiteConnection(dbPath);
-        Debug.WriteLine("*** dbPath: " + dbPath);
     }
 
     /// <summary>
