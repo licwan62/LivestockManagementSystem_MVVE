@@ -10,9 +10,9 @@ public class Livestock
     public string Colour { get; set; }
     public override string ToString()
     {
-        return $"Type {Type}, \n" +
-            $"Cost ${Cost}, \n" +
-            $"Weight {Weight} kg, \n" +
+        return $"Type {Type}, " +
+            $"Cost ${Cost}, " +
+            $"Weight {Weight} kg, " +
             $"Colour {Colour}";
     }
 }
@@ -23,7 +23,7 @@ public class Cow : Livestock
     public float Produce { get => this.Milk; }
     public override string ToString()
     {
-        return base.ToString() + ",\n" +
+        return base.ToString() + ", " +
             $"Milk {Milk} kg";
     }
     public Cow()
@@ -56,7 +56,7 @@ public class Sheep : Livestock
     public float Produce { get => this.Wool; }
     public override string ToString()
     {
-        return base.ToString() + ",\n" +
+        return base.ToString() + ", " +
             $"Wool {Wool} kg";
     }
     public Sheep()

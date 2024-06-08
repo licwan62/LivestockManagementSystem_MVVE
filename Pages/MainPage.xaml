@@ -9,15 +9,14 @@
         ColumnDefinitions="*,*"
         ColumnSpacing="10"
         MaximumWidthRequest="1440"
-        MinimumWidthRequest="1000">
-
+        MinimumWidthRequest="1080">
         <!--#region Table on left-->
         <StackLayout>
             <Border
                 Padding="10"
                 BackgroundColor="#F4F4F4"
                 StrokeShape="RoundRectangle 5">
-                <CollectionView ItemsSource="{Binding Livestocks, Source={ViewModel:LivestockViewModel}}">
+                <CollectionView ItemsSource="{Binding Livestocks}">
                     <CollectionView.Header>
                         <Border
                             Margin="0,10"
@@ -57,25 +56,32 @@
         <!--#endregion-->
         <!--#region Operation on right-->
         <ScrollView Grid.Column="1">
-
+            <!--#region Style settings-->
             <ScrollView.Resources>
                 <Style x:Key="Heading" TargetType="Label">
                     <Setter Property="FontSize" Value="18" />
                     <Setter Property="FontAttributes" Value="Bold" />
                     <Setter Property="TextColor" Value="#3B3B3B" />
                 </Style>
-                <Style x:Key="RedItalic" TargetType="Label">
-                    <Setter Property="FontAttributes" Value="Italic" />
-                    <Setter Property="TextColor" Value="PaleVioletRed" />
-                </Style>
                 <Style x:Key="Result" TargetType="Label">
                     <Setter Property="FontSize" Value="18" />
-                    <Setter Property="FontAttributes" Value="Bold" />
-                    <Setter Property="TextColor" Value="#3B3B3B" />
                     <Setter Property="Padding" Value="10" />
+                    <Setter Property="FontAttributes" Value="Bold,Italic" />
+                    <Setter Property="TextColor" Value="PaleVioletRed" />
+                </Style>
+                <Style x:Key="ButtonsGrid" TargetType="Grid">
+                    <Setter Property="ColumnDefinitions" Value="*,*" />
+                    <Setter Property="RowSpacing" Value="10" />
+                    <Setter Property="Margin" Value="0,10" />
+                </Style>
+                <Style x:Key="FormGrid" TargetType="Grid">
+                    <Setter Property="Padding" Value="50,0" />
+                    <Setter Property="RowSpacing" Value="10" />
+                    <Setter Property="Margin" Value="0,10" />
+                    <Setter Property="ColumnDefinitions" Value="*,2*" />
                 </Style>
             </ScrollView.Resources>
-
+            <!--#endregion-->
             <VerticalStackLayout>
                 <!--#region Statistics-->
                 <StackLayout>
@@ -87,22 +93,28 @@
                 <!--#endregion-->
                 <!--#region Query-->
                 <StackLayout>
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*">
-                        <Label Grid.ColumnSpan="2" Text="{Binding QueryVerifyInfo}" />
-
+                    <Label Style="{StaticResource Headline}" Text="Quey" />
+                    <Grid RowDefinitions="*,*" Style="{StaticResource FormGrid}">
+                        <!--  Type  -->
+                        <Label Style="{StaticResource Heading}" Text="TYPE" />
                         <Picker
                             Grid.Column="1"
                             ItemsSource="{Binding Types}"
-                            SelectedItem="{Binding QueryByType}"
+                            SelectedItem="{Binding QueryType}"
                             TitleColor="Gray" />
-
+                        <!--  Colour  -->
+                        <Label
+                            Grid.Row="1"
+                            Style="{StaticResource Heading}"
+                            Text="COLOUR" />
                         <Picker
                             Grid.Row="1"
                             Grid.Column="1"
                             ItemsSource="{Binding Colours}"
-                            SelectedItem="{Binding QueryByColour}"
+                            SelectedItem="{Binding QueryColour}"
                             TitleColor="Gray" />
-
+                    </Grid>
+                    <Grid Style="{StaticResource ButtonsGrid}">
                         <Button
                             Command="{Binding ResetCommand}"
                             CommandParameter="Query"
@@ -118,66 +130,80 @@
                 <!--#endregion-->
                 <!--#region Insert-->
                 <StackLayout>
-                    <Label Text="Add new Livestock" />
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*">
-                        <Label Grid.ColumnSpan="2" Text="{Binding InsertVerifyInfo}" />
+                    <Label Style="{StaticResource Headline}" Text="Add" />
+                    <Grid RowDefinitions="*,*,*,*,*" Style="{StaticResource FormGrid}">
                         <!--  type  -->
+                        <Label Style="{StaticResource Heading}" Text="TYPE" />
                         <Picker
-                            Title="Type"
-                            Grid.Row="1"
+                            Grid.Column="1"
                             ItemsSource="{Binding Types}"
                             SelectedItem="{Binding InsertType}" />
                         <!--  cost  -->
+                        <Label
+                            Grid.Row="1"
+                            Style="{StaticResource Heading}"
+                            Text="COST" />
                         <Entry
-                            Grid.Row="2"
+                            Grid.Row="1"
+                            Grid.Column="1"
                             Placeholder="Cost of new livestock"
                             Text="{Binding InsertCost}" />
                         <!--  weight  -->
+                        <Label
+                            Grid.Row="2"
+                            Style="{StaticResource Heading}"
+                            Text="WEIGHT" />
                         <Entry
-                            Grid.Row="3"
+                            Grid.Row="2"
+                            Grid.Column="1"
                             Placeholder="Weight of new livestock"
                             Text="{Binding InsertWeight}" />
                         <!--  colour  -->
+                        <Label
+                            Grid.Row="3"
+                            Style="{StaticResource Heading}"
+                            Text="COLOUR" />
                         <Picker
-                            Title="Colour"
-                            Grid.Row="4"
+                            Grid.Row="3"
+                            Grid.Column="1"
                             ItemsSource="{Binding Colours}"
                             SelectedItem="{Binding InsertColour}" />
                         <!--  produce  -->
+                        <Label
+                            Grid.Row="4"
+                            Style="{StaticResource Heading}"
+                            Text="PRODUCE" />
                         <Entry
-                            Grid.Row="5"
-                            Placeholder="{Binding InsertProduce_Placeholder}"
-                            Text="{Binding InsertProduce}" />
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Placeholder="Weight of Produce"
+                            Text="{Binding InsertProduceWeight}" />
+                    </Grid>
+                    <Grid Style="{StaticResource ButtonsGrid}">
                         <Button
-                            Grid.Row="6"
                             Command="{Binding ResetCommand}"
                             CommandParameter="Insert"
                             Text="Reset" />
                         <Button
-                            Grid.Row="6"
                             Grid.Column="1"
                             Command="{Binding InsertCommand}"
                             Text="Apply" />
-                        <!--  Insertion Result  -->
-                        <Label
-                            Grid.Row="1"
-                            Grid.RowSpan="5"
-                            Grid.Column="1"
-                            Text="{Binding InsertResult}" />
                     </Grid>
+                    <!--  Insertion Result  -->
+                    <Label Style="{StaticResource Result}" Text="{Binding InsertResult}" />
                 </StackLayout>
                 <!--#endregion-->
                 <!--#region Delete-->
                 <StackLayout>
-                    <Label Text="Remove Livestock by ID" />
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*">
-                        <Label Grid.ColumnSpan="2" Text="{Binding DeleteVerifyInfo}" />
-
+                    <Label Style="{StaticResource Headline}" Text="Remove" />
+                    <Grid Style="{StaticResource FormGrid}">
+                        <Label Style="{StaticResource Heading}" Text="ID" />
                         <Entry
-                            Grid.Row="1"
+                            Grid.Column="1"
                             Placeholder="Enter a ID number to remove"
                             Text="{Binding DeleteID}" />
-
+                    </Grid>
+                    <Grid Style="{StaticResource ButtonsGrid}">
                         <Button
                             Grid.Row="2"
                             Command="{Binding ResetCommand}"
@@ -188,22 +214,17 @@
                             Grid.Column="1"
                             Command="{Binding DeleteCommand}"
                             Text="Apply" />
-                        <!--  Delete Info  -->
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Text="{Binding DeleteResult}" />
                     </Grid>
+                    <!--  Delete Info  -->
+                    <Label Style="{StaticResource Result}" Text="{Binding DeleteResult}" />
                 </StackLayout>
                 <!--#endregion-->
                 <!--#region Update-->
                 <StackLayout>
                     <!--  Search by ID  -->
                     <StackLayout>
-                        <Label Text="Remove Livestock by ID" />
-                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
-                            <Label Grid.ColumnSpan="2" Text="{Binding UpdateVerifyInfo}" />
-
+                        <Label Style="{StaticResource Headline}" Text="Update" />
+                        <Grid Style="{StaticResource FormGrid}">
                             <Label
                                 Grid.Row="1"
                                 Style="{StaticResource Heading}"
@@ -214,10 +235,10 @@
                                 Placeholder="Enter the Updating ID number"
                                 Text="{Binding UpdateID}" />
                         </Grid>
-                        <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
+                        <Grid Style="{StaticResource ButtonsGrid}">
                             <Button
                                 Command="{Binding ResetCommand}"
-                                CommandParameter="IDCheck"
+                                CommandParameter="Update"
                                 Text="Reset" />
                             <Button
                                 Grid.Column="1"
@@ -227,61 +248,46 @@
                     </StackLayout>
                     <!--  Details of Livestocks to update  -->
                     <StackLayout IsVisible="{Binding UpdateVisible}">
-                        <Label Text="Update Statistic" />
-                        <Grid ColumnDefinitions="*,2*" RowDefinitions="*,*,*,*,*">
-                            <!--  Update Type  -->
-                            <Label
-                                Grid.Row="1"
-                                Style="{StaticResource Heading}"
-                                Text="Type" />
-                            <Picker
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                ItemsSource="{Binding Types}"
-                                SelectedItem="{Binding UpdateType}" />
+                        <Label Style="{StaticResource SubHeadline}" Text="Updating Statistic" />
+                        <Grid RowDefinitions="*,*,*,*" Style="{StaticResource FormGrid}">
                             <!--  Update Cost  -->
-                            <Label
-                                Grid.Row="2"
-                                Style="{StaticResource Heading}"
-                                Text="Cost" />
+                            <Label Style="{StaticResource Heading}" Text="Cost" />
                             <Entry
-                                Grid.Row="2"
                                 Grid.Column="1"
                                 Placeholder="Enter the updating number of Cost"
                                 Text="{Binding UpdateCost}" />
                             <!--  Update Weight  -->
                             <Label
-                                Grid.Row="3"
+                                Grid.Row="1"
                                 Style="{StaticResource Heading}"
                                 Text="Weight" />
                             <Entry
-                                Grid.Row="3"
+                                Grid.Row="1"
                                 Grid.Column="1"
                                 Placeholder="Enter the updating number of Weight"
                                 Text="{Binding UpdateWeight}" />
                             <!--  Update Colour  -->
                             <Label
-                                Grid.Row="4"
+                                Grid.Row="2"
                                 Style="{StaticResource Heading}"
                                 Text="Colour" />
                             <Picker
-                                Grid.Row="4"
+                                Grid.Row="2"
                                 Grid.Column="1"
                                 ItemsSource="{Binding Colours}"
                                 SelectedItem="{Binding UpdateColour}" />
                             <!--  Update Produce Weight  -->
                             <Label
-                                Grid.Row="5"
+                                Grid.Row="3"
                                 Style="{StaticResource Heading}"
                                 Text="Produce Weight" />
                             <Entry
-                                Grid.Row="5"
+                                Grid.Row="3"
                                 Grid.Column="1"
                                 Placeholder="Enter the updating number of Weight"
                                 Text="{Binding UpdateProduceWeight}" />
-
                         </Grid>
-                        <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
+                        <Grid Style="{StaticResource ButtonsGrid}">
                             <Button
                                 Command="{Binding ResetCommand}"
                                 CommandParameter="Update"

@@ -4,7 +4,7 @@ public partial class LivestockViewModel : ObservableObject
 {
     Util _util;
     Database _database;
-    readonly string defaultResult = "Empty Result";
+    readonly string defaultResult = "Result showing here";
     [ObservableProperty] ObservableCollection<Livestock> _livestocks;
     public ObservableCollection<Cow> Cows { get => new ObservableCollection<Cow>(Livestocks.OfType<Cow>()); }
     public ObservableCollection<Sheep> Sheeps { get => new ObservableCollection<Sheep>(Livestocks.OfType<Sheep>()); }
@@ -48,11 +48,7 @@ public partial class LivestockViewModel : ObservableObject
                 DeleteID = "";
                 DeleteResult = defaultResult;
                 break;
-            case "IDCheck":
-                UpdateID = "";
-                break;
             case "Update":
-                UpdateType = Types[0];
                 UpdateCost = "";
                 UpdateWeight = "";
                 UpdateColour = Colours[0];
@@ -65,21 +61,20 @@ public partial class LivestockViewModel : ObservableObject
                 Reset("Query");
                 Reset("Insert");
                 Reset("Delete");
-                Reset("IDCheck");
                 Reset("Update");
                 break;
         }
-    } 
+    }
     #endregion
-    #region query
+    #region Query
     // Properties
     [ObservableProperty]
-    string _queryResult;
+    string? _queryResult;
 
     // binding with pickers item
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(QueryCommand))]
-    string _queryType,
+    string? _queryType,
         _queryColour;
 
     [RelayCommand]
@@ -94,17 +89,10 @@ public partial class LivestockViewModel : ObservableObject
             && !string.IsNullOrEmpty(QueryColour);
     #endregion
     #region Insert
-    string InsertProduce
+    string ProduceName(string livestock)
     {
-        get
-        {
-            switch (InsertType)
-            {
-                case "Cow": return "Milk";
-                case "Sheep": return "Wool";
-            }
-            return "";
-        }
+        if (livestock == "Cow") return "Milk";
+        else return "Wool";
     }
     string GetInsertVerifyInfo()
     {
@@ -120,8 +108,8 @@ public partial class LivestockViewModel : ObservableObject
         props[3] = string.IsNullOrEmpty(InsertColour) ?
             "Empty Colour" : "";
         props[4] = string.IsNullOrEmpty(InsertProduceWeight) ?
-            $"Empty {InsertProduce}" : Util.VerifyFloat(InsertProduceWeight) == Util.bad_float ?
-            $"Invalid {InsertProduce}" : "";
+            $"Empty {ProduceName(InsertType)}" : Util.VerifyFloat(InsertProduceWeight) == Util.bad_float ?
+            $"Invalid {ProduceName(InsertType)}" : "";
 
         StringBuilder sb = new StringBuilder();
         foreach (string prop in props)
@@ -281,18 +269,6 @@ public partial class LivestockViewModel : ObservableObject
 
     #endregion Delete
     #region Update
-    string updateProduceName
-    {
-        get
-        {
-            switch (UpdateType)
-            {
-                case "Cow": return "Milk";
-                case "Sheep": return "Wool";
-                default: return "Produce";
-            }
-        }
-    }
     string idVerify
     {
         get => string.IsNullOrEmpty(UpdateID) ?
@@ -303,20 +279,18 @@ public partial class LivestockViewModel : ObservableObject
     {
         get
         {
-            string[] props = new string[5];
-            props[0] = string.IsNullOrEmpty(UpdateType) ?
-            "Empty Type" : "";
-            props[1] = string.IsNullOrEmpty(UpdateCost) ?
+            string[] props = new string[4];
+            props[0] = string.IsNullOrEmpty(UpdateCost) ?
                 "Empty Cost" : Util.VerifyFloat(UpdateCost) == Util.bad_float ?
                 $"Invalid Cost {UpdateCost}" : "";
-            props[2] = string.IsNullOrEmpty(UpdateWeight) ?
+            props[1] = string.IsNullOrEmpty(UpdateWeight) ?
                 "Empty Weight" : Util.VerifyFloat(UpdateWeight) == Util.bad_float ?
                 $"Invalid Weight {UpdateWeight}" : "";
-            props[3] = string.IsNullOrEmpty(UpdateColour) ?
+            props[2] = string.IsNullOrEmpty(UpdateColour) ?
                 "Empty Colour" : "";
-            props[4] = string.IsNullOrEmpty(UpdateProduceWeight) ?
-                $"Empty {updateProduceName}" : Util.VerifyFloat(UpdateProduceWeight) == Util.bad_float ?
-                $"Invalid {updateProduceName} {UpdateProduceWeight}" : "";
+            props[3] = string.IsNullOrEmpty(UpdateProduceWeight) ?
+                $"Empty Produce" : Util.VerifyFloat(UpdateProduceWeight) == Util.bad_float ?
+                $"Invalid Produce {UpdateProduceWeight}" : "";
             StringBuilder sb = new StringBuilder();
             foreach (var item in props)
             {
@@ -337,7 +311,7 @@ public partial class LivestockViewModel : ObservableObject
     string _updateID;
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(UpdateCommand))]
-    string _updateType, _updateCost, _updateWeight, _updateColour, _updateProduceWeight;
+    string _updateCost, _updateWeight, _updateColour, _updateProduceWeight;
 
     [RelayCommand(CanExecute = nameof(CanIDCheck))]
     public void IDCheck()
@@ -362,34 +336,59 @@ public partial class LivestockViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanUpdate))]
     public void Update()
     {
+        // update in database
+        int id = Util.VerifyInt(UpdateID);
         bool updated = false;
-        if (UpdateType == "Cow")
+        Cow newCow = null!;
+        Sheep newSheep = null!;
+
+        Livestock? livestockToUpdate = Livestocks.Where(l => l.Id == id).FirstOrDefault();
+        if (livestockToUpdate != null)
         {
-            Cow newCow = new Cow(UpdateID, UpdateCost, UpdateWeight, UpdateColour, UpdateProduceWeight);
-            updated = _database.Update(newCow) > 0;
-            UpdateResult = newCow.ToString();
-        }
-        else if (UpdateType == "Sheep")
-        {
-            Sheep newSheep = new Sheep(UpdateID, UpdateCost, UpdateWeight, UpdateColour, UpdateProduceWeight);
-            updated = _database.Update(newSheep) > 0;
-            UpdateResult = newSheep.ToString();
-        }
-        if (!updated)
-        {
-            string msg = $"ID {UpdateID} Failed to Update";
-            Shell.Current.DisplayAlert("Failed", msg, "Continue");
-        }
-        else
-        {
-            string msg = $"ID {UpdateID} Updated\n{UpdateResult}";
-            Shell.Current.DisplayAlert("Updated", msg, "Continue");
+            string updateType = livestockToUpdate.Type;
+            if (updateType == "Cow")
+            {
+                newCow = new Cow(UpdateID, UpdateCost, UpdateWeight, UpdateColour, UpdateProduceWeight);
+                updated = _database.Update(newCow) > 0;
+            }
+            else if (updateType == "Sheep")
+            {
+                newSheep = new Sheep(UpdateID, UpdateCost, UpdateWeight, UpdateColour, UpdateProduceWeight);
+                updated = _database.Update(newSheep) > 0;
+            }
+            // update obcollection and show result
+            if (updated)
+            {
+                StringBuilder msg = new StringBuilder();
+                msg.AppendLine($"{updateType} ID {UpdateID} Updated");
+                msg.AppendLine($"{updateType} Details:");
+                string detail = "";
+                if (updateType == "Cow")
+                {
+                    int idx = Livestocks.IndexOf(livestockToUpdate);
+                    Livestocks[idx] = newCow;
+                    detail = newCow.ToString();
+                }
+                else if (updateType == "Sheep")
+                {
+                    int idx = Livestocks.IndexOf(livestockToUpdate);
+                    Livestocks[idx] = newSheep;
+                    detail = newSheep.ToString();
+                }
+                msg.AppendLine(detail);
+                Shell.Current.DisplayAlert("Updated", msg.ToString(), "Continue");
+                UpdateResult = $"{updateType} Details:\n" + detail;
+            }
+            else
+            {
+                string msg = $"ID {UpdateID} Failed to Update";
+                Shell.Current.DisplayAlert("Failed", msg, "Continue");
+            }
         }
     }
     bool CanUpdate()
     {
-        bool condition = !string.IsNullOrEmpty(UpdateType)
-            && !string.IsNullOrEmpty(UpdateColour)
+        bool condition = !string.IsNullOrEmpty(UpdateColour)
             && Util.VerifyFloat(UpdateCost) != Util.bad_float
             && Util.VerifyFloat(UpdateWeight) != Util.bad_float
             && Util.VerifyFloat(UpdateProduceWeight) != Util.bad_float;
