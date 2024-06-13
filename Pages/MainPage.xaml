@@ -3,7 +3,6 @@
     x:Class="Task4_MVVE.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:ViewModel="clr-namespace:Task4_MVVE.ViewModel"
     Title="MainPage">
     <Grid
         ColumnDefinitions="*,*"
@@ -16,7 +15,10 @@
                 Padding="10"
                 BackgroundColor="#F4F4F4"
                 StrokeShape="RoundRectangle 5">
-                <CollectionView ItemsSource="{Binding Livestocks}">
+                <CollectionView
+                    ItemsSource="{Binding Livestocks}"
+                    SelectedItem="{Binding SelectedLivestock}"
+                    SelectionMode="Single">
                     <CollectionView.Header>
                         <Border
                             Margin="0,10"
@@ -52,6 +54,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Border>
+            <Button Command="{Binding ModifyCommand}" Text="Modify" />
         </StackLayout>
         <!--#endregion-->
         <!--#region Operation on right-->
@@ -305,6 +308,5 @@
             </VerticalStackLayout>
         </ScrollView>
         <!--#endregion-->
-
     </Grid>
 </ContentPage>

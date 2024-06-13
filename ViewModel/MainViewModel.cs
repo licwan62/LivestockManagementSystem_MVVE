@@ -1,21 +1,29 @@
 ﻿namespace Task4_MVVE.ViewModel;
 
-public partial class LivestockViewModel : ObservableObject
+public partial class MainViewModel : ObservableObject
 {
+    #region Properties
     Util _util;
     Database _database;
     readonly string defaultResult = "Result showing here";
     [ObservableProperty] ObservableCollection<Livestock> _livestocks;
-    public ObservableCollection<Cow> Cows { get => new ObservableCollection<Cow>(Livestocks.OfType<Cow>()); }
-    public ObservableCollection<Sheep> Sheeps { get => new ObservableCollection<Sheep>(Livestocks.OfType<Sheep>()); }
+    public ObservableCollection<Cow> Cows 
+    { 
+        get => new ObservableCollection<Cow>(Livestocks.OfType<Cow>()); 
+    }
+    public ObservableCollection<Sheep> Sheeps 
+    { 
+        get => new ObservableCollection<Sheep>(Livestocks.OfType<Sheep>());
+    }
 
     [ObservableProperty]// Statistics reporting
     string _pricesInfo, _statisticsReport;
 
     [ObservableProperty]// Pickers' items
     string[] _types = { "Cow", "Sheep" },
-        _colours = { "All", "White", "Black", "Red" };
-    public LivestockViewModel()
+        _colours = { "All", "White", "Black", "Red" }; 
+    #endregion
+    public MainViewModel()
     {
         Livestocks = new ObservableCollection<Livestock>();
         _database = new Database();
@@ -395,4 +403,26 @@ public partial class LivestockViewModel : ObservableObject
         return condition;
     }
     #endregion Update
+    #region Test
+    [ObservableProperty]
+    Livestock _selectedLivestock;
+
+    [RelayCommand]
+    void Modify()
+    {
+        var newWindowViewModel = new OpeningViewModel
+        {
+            Data = "Modify Selected Livestock"
+            
+        };
+
+        var newWindow = new Window(new OpeningPage(newWindowViewModel)
+        {
+            BindingContext = newWindowViewModel
+        });
+
+        Application.Current.OpenWindow(newWindow);
+    }
+
+    #endregion
 }

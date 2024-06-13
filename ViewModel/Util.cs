@@ -2,11 +2,11 @@
 
 public class Util
 {
-    public LivestockViewModel vm;
+    public MainViewModel vm;
     private float milk_price_rate = 9.4f,
         wool_price_rate = 6.2f,
         tax_rate = 0.2f;
-    public Util(LivestockViewModel vm)
+    public Util(MainViewModel vm)
     {
         this.vm = vm;
     }
