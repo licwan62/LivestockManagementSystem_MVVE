@@ -54,7 +54,6 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Border>
-            <Button Command="{Binding ModifyCommand}" Text="Modify" />
         </StackLayout>
         <!--#endregion-->
         <!--#region Operation on right-->

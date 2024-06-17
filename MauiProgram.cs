@@ -20,9 +20,7 @@ namespace Task4_MVVE
 #endif
 
             builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<OpeningPage>();
             builder.Services.AddSingleton<MainViewModel>();
-            builder.Services.AddSingleton<OpeningViewModel>();
             return builder.Build();
         }
     }

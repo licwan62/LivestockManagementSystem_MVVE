@@ -403,26 +403,4 @@ public partial class MainViewModel : ObservableObject
         return condition;
     }
     #endregion Update
-    #region Test
-    [ObservableProperty]
-    Livestock _selectedLivestock;
-
-    [RelayCommand]
-    void Modify()
-    {
-        var newWindowViewModel = new OpeningViewModel
-        {
-            Data = "Modify Selected Livestock"
-            
-        };
-
-        var newWindow = new Window(new OpeningPage(newWindowViewModel)
-        {
-            BindingContext = newWindowViewModel
-        });
-
-        Application.Current.OpenWindow(newWindow);
-    }
-
-    #endregion
 }
