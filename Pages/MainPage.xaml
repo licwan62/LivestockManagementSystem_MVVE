@@ -4,7 +4,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ViewModel="clr-namespace:Task4_MVVE.ViewModel"
-    Title="MainPage">
+    Title="Live Stock Management System"
+    Shell.TitleColor="White"
+    BackgroundColor="Black">
     <Grid
         ColumnDefinitions="*,*"
         ColumnSpacing="10"
@@ -14,22 +16,22 @@
         <StackLayout>
             <Border
                 Padding="10"
-                BackgroundColor="#F4F4F4"
-                StrokeShape="RoundRectangle 5">
+                BackgroundColor="White"
+                StrokeShape="Rectangle 5">
                 <CollectionView ItemsSource="{Binding Livestocks}">
                     <CollectionView.Header>
                         <Border
                             Margin="0,10"
-                            Padding="5,10"
+                            Padding="5, 10"
                             BackgroundColor="White"
-                            StrokeShape="RoundRectangle 5">
+                            StrokeShape="Rectangle 5">
                             <Grid ColumnDefinitions="*,*,*,*,*,*,*">
-                                <Label Grid.Column="0" Text="Type" />
-                                <Label Grid.Column="1" Text="ID" />
-                                <Label Grid.Column="2" Text="Cost" />
-                                <Label Grid.Column="3" Text="Weight" />
-                                <Label Grid.Column="4" Text="Colour" />
-                                <Label Grid.Column="5" Text="Produce" />
+                                <Label Grid.Column="0" Text="Type" TextColor="Black" FontAttributes="Bold"/>
+                                <Label Grid.Column="1" Text="ID" TextColor="Black" FontAttributes="Bold"/>
+                                <Label Grid.Column="2" Text="Cost" TextColor="Black" FontAttributes="Bold"/>
+                                <Label Grid.Column="3" Text="Weight" TextColor="Black" FontAttributes="Bold"/>
+                                <Label Grid.Column="4" Text="Colour" TextColor="Black" FontAttributes="Bold"/>
+                                <Label Grid.Column="5" Text="Produce" TextColor="Black" FontAttributes="Bold"/>
                             </Grid>
                         </Border>
                     </CollectionView.Header>
@@ -38,14 +40,14 @@
                             <Border
                                 Padding="5"
                                 BackgroundColor="White"
-                                StrokeShape="RoundRectangle 5">
+                                StrokeShape="Rectangle 5">
                                 <Grid ColumnDefinitions="*,*,*,*,*,*,*">
-                                    <Label Grid.Column="0" Text="{Binding Type}" />
-                                    <Label Grid.Column="1" Text="{Binding Id}" />
-                                    <Label Grid.Column="2" Text="{Binding Cost}" />
-                                    <Label Grid.Column="3" Text="{Binding Weight}" />
-                                    <Label Grid.Column="4" Text="{Binding Colour}" />
-                                    <Label Grid.Column="5" Text="{Binding Produce}" />
+                                    <Label Grid.Column="0" Text="{Binding Type}" TextColor="Black"/>
+                                    <Label Grid.Column="1" Text="{Binding Id}" TextColor="Black"/>
+                                    <Label Grid.Column="2" Text="{Binding Cost}" TextColor="Black"/>
+                                    <Label Grid.Column="3" Text="{Binding Weight}" TextColor="Black"/>
+                                    <Label Grid.Column="4" Text="{Binding Colour}" TextColor="Black"/>
+                                    <Label Grid.Column="5" Text="{Binding Produce}" TextColor="Black"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -61,7 +63,12 @@
                 <Style x:Key="Heading" TargetType="Label">
                     <Setter Property="FontSize" Value="18" />
                     <Setter Property="FontAttributes" Value="Bold" />
-                    <Setter Property="TextColor" Value="#3B3B3B" />
+                    <Setter Property="TextColor" Value="White" />
+                </Style>
+                <Style x:Key="Headline" TargetType="Label">
+                    <Setter Property="FontSize" Value="24" />
+                    <Setter Property="FontAttributes" Value="Bold" />
+                    <Setter Property="TextColor" Value="Gray" />
                 </Style>
                 <Style x:Key="Result" TargetType="Label">
                     <Setter Property="FontSize" Value="18" />
@@ -70,10 +77,19 @@
                     <Setter Property="TextColor" Value="PaleVioletRed" />
                 </Style>
                 <Style x:Key="ButtonsGrid" TargetType="Grid">
-                    <Setter Property="ColumnDefinitions" Value="*,*" />
+                    <Setter Property="ColumnDefinitions" Value="*, *" />
+                    <Setter Property="Padding" Value="50"/>
                     <Setter Property="RowSpacing" Value="10" />
-                    <Setter Property="Margin" Value="0,10" />
+                    <Setter Property="Margin" Value="0" />
                 </Style>
+                
+                <Style x:Key="ButtonStyle" TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="gray"/>
+                    <Setter Property="TextColor" Value="White"/>
+                    <Setter Property="FontAttributes" Value="Bold"/>
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+                
                 <Style x:Key="FormGrid" TargetType="Grid">
                     <Setter Property="Padding" Value="50,0" />
                     <Setter Property="RowSpacing" Value="10" />
@@ -85,7 +101,7 @@
             <VerticalStackLayout>
                 <!--#region Statistics-->
                 <StackLayout>
-                    <Label Style="{StaticResource Headline}" Text="Prices Information" />
+                    <Label Style="{StaticResource Headline}" Text="Price Info" />
                     <Label Style="{StaticResource Heading}" Text="{Binding PricesInfo}" />
                     <Label Style="{StaticResource Headline}" Text="Statistics and Profit Forecasting" />
                     <Label Style="{StaticResource Heading}" Text="{Binding StatisticsReport}" />
@@ -93,7 +109,7 @@
                 <!--#endregion-->
                 <!--#region Query-->
                 <StackLayout>
-                    <Label Style="{StaticResource Headline}" Text="Quey" />
+                    <Label Style="{StaticResource Headline}" Text="Query" />
                     <Grid RowDefinitions="*,*" Style="{StaticResource FormGrid}">
                         <!--  Type  -->
                         <Label Style="{StaticResource Heading}" Text="TYPE" />
@@ -115,11 +131,11 @@
                             TitleColor="Gray" />
                     </Grid>
                     <Grid Style="{StaticResource ButtonsGrid}">
-                        <Button
+                        <Button Style="{StaticResource ButtonStyle}"
                             Command="{Binding ResetCommand}"
                             CommandParameter="Query"
-                            Text="Reset" />
-                        <Button
+                            Text="Reset"/>
+                        <Button Style="{StaticResource ButtonStyle}"
                             Grid.Column="1"
                             Command="{Binding QueryCommand}"
                             Text="Apply" />
@@ -176,15 +192,15 @@
                         <Entry
                             Grid.Row="4"
                             Grid.Column="1"
-                            Placeholder="Weight of Produce"
+                            Placeholder="Weight of produce"
                             Text="{Binding InsertProduceWeight}" />
                     </Grid>
                     <Grid Style="{StaticResource ButtonsGrid}">
-                        <Button
+                        <Button Style="{StaticResource ButtonStyle}"
                             Command="{Binding ResetCommand}"
                             CommandParameter="Insert"
                             Text="Reset" />
-                        <Button
+                        <Button Style="{StaticResource ButtonStyle}"
                             Grid.Column="1"
                             Command="{Binding InsertCommand}"
                             Text="Apply" />
@@ -200,16 +216,16 @@
                         <Label Style="{StaticResource Heading}" Text="ID" />
                         <Entry
                             Grid.Column="1"
-                            Placeholder="Enter a ID number to remove"
+                            Placeholder="Enter an ID number to remove"
                             Text="{Binding DeleteID}" />
                     </Grid>
                     <Grid Style="{StaticResource ButtonsGrid}">
-                        <Button
+                        <Button Style="{StaticResource ButtonStyle}"
                             Grid.Row="2"
                             Command="{Binding ResetCommand}"
                             CommandParameter="Delete"
                             Text="Reset" />
-                        <Button
+                        <Button Style="{StaticResource ButtonStyle}"
                             Grid.Row="2"
                             Grid.Column="1"
                             Command="{Binding DeleteCommand}"
@@ -232,15 +248,15 @@
                             <Entry
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Placeholder="Enter the Updating ID number"
+                                Placeholder="Enter the updating ID number"
                                 Text="{Binding UpdateID}" />
                         </Grid>
                         <Grid Style="{StaticResource ButtonsGrid}">
-                            <Button
+                            <Button Style="{StaticResource ButtonStyle}"
                                 Command="{Binding ResetCommand}"
                                 CommandParameter="Update"
                                 Text="Reset" />
-                            <Button
+                            <Button Style="{StaticResource ButtonStyle}"
                                 Grid.Column="1"
                                 Command="{Binding IDCheckCommand}"
                                 Text="Check" />
@@ -254,7 +270,7 @@
                             <Label Style="{StaticResource Heading}" Text="Cost" />
                             <Entry
                                 Grid.Column="1"
-                                Placeholder="Enter the updating number of Cost"
+                                Placeholder="Enter the updating number of cost"
                                 Text="{Binding UpdateCost}" />
                             <!--  Update Weight  -->
                             <Label
@@ -264,7 +280,7 @@
                             <Entry
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Placeholder="Enter the updating number of Weight"
+                                Placeholder="Enter the updating number of weight"
                                 Text="{Binding UpdateWeight}" />
                             <!--  Update Colour  -->
                             <Label
@@ -284,15 +300,15 @@
                             <Entry
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                Placeholder="Enter the updating number of Weight"
+                                Placeholder="Enter the updating number of weight"
                                 Text="{Binding UpdateProduceWeight}" />
                         </Grid>
                         <Grid Style="{StaticResource ButtonsGrid}">
-                            <Button
+                            <Button Style="{StaticResource ButtonStyle}"
                                 Command="{Binding ResetCommand}"
                                 CommandParameter="Update"
                                 Text="Reset" />
-                            <Button
+                            <Button Style="{StaticResource ButtonStyle}"
                                 Grid.Column="1"
                                 Command="{Binding UpdateCommand}"
                                 Text="Apply" />
