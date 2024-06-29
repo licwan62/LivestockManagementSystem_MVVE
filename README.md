@@ -1,4 +1,4 @@
-#LMS (Livestock Management System) functionalities
+# LMS (Livestock Management System) functionalities
 •  Read data from database and save as objects
 •  Calculate livestock statistics
 •  Query farm livestock
