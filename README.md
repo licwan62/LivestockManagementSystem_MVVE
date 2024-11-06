@@ -1,8 +1,19 @@
 # LMS (Livestock Management System) functionalities
-### •  Read data from database and save as objects
-### •  Calculate livestock statistics
-### •  Query farm livestock
-### •  Delete record from database
-### •  Insert record in database
-### •  Update record in database
-### •  Note: all data, whether entered by user or retrieved from database
+
+![livestock management](livestock management.jpeg)
+
+###  Read data from database and save as objects
+
+### Calculate livestock statistics
+
+### Query farm livestock
+
+### Delete record from database
+
+### Insert record in database
+
+![livestock management2](livestock management2.jpeg)
+
+###  Update record in database
+
+###  Note: all data, whether entered by user or retrieved from database
