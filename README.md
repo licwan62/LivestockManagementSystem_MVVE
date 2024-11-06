@@ -1,6 +1,6 @@
 # LMS (Livestock Management System) functionalities
 
-![livestock management](Assets//livestock management.jpeg)
+![livestock management](Assets/ui.jpeg)
 
 ###  Read data from database and save as objects
 
@@ -12,7 +12,7 @@
 
 ### Insert record in database
 
-![livestock management2](Assets/livestock management2.jpeg)
+![livestock management2](Assets/ui_confirm.jpeg)
 
 ###  Update record in database
 
